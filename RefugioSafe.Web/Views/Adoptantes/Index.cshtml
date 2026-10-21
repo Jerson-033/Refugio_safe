@@ -1,0 +1,13 @@
+@model List<AdoptanteDto>
+@{ ViewData["Title"] = "Adoptantes"; }
+<div class="card">
+    <h2>Adoptantes</h2>
+    <a class="btn tan" asp-action="Crear">+ Registrar adoptante</a>
+</div>
+<table>
+    <tr><th>Nombre</th><th>Documento</th><th>Contacto</th><th>Correo</th><th>Dirección</th></tr>
+    @foreach (var a in Model)
+    {
+        <tr><td>@a.NombreCompleto</td><td>@a.TipoDocumento @a.NumeroDocumento</td><td>@a.Contacto</td><td>@a.Correo</td><td>@a.Direccion</td></tr>
+    }
+</table>

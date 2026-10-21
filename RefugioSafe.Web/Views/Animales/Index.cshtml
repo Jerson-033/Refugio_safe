@@ -1,0 +1,42 @@
+@model List<AnimalDto>
+@{
+    ViewData["Title"] = "Animales";
+    var seleccionado = ViewBag.Estado as string ?? "";
+    var esAdmin = User.IsInRole("Administrador");
+}
+<div class="card">
+    <h2>Animales</h2>
+    <form method="get" class="inline">
+        <label style="margin:0">Filtrar por estado</label>
+        <select name="estado" onchange="this.form.submit()" style="width:auto">
+            <option value="" selected="@(seleccionado == "")">Todos</option>
+            <option value="Disponible" selected="@(seleccionado == "Disponible")">Disponible</option>
+            <option value="EnProceso" selected="@(seleccionado == "EnProceso")">En proceso</option>
+            <option value="Adoptado" selected="@(seleccionado == "Adoptado")">Adoptado</option>
+        </select>
+        <noscript><button>Filtrar</button></noscript>
+    </form>
+    @if (esAdmin) { <a class="btn tan" asp-action="Crear" style="float:right">+ Registrar animal</a> }
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="card">No hay animales con ese estado.</div>
+}
+<div class="cards">
+@foreach (var a in Model)
+{
+    <div class="card animal">
+        <div class="foto" style="@(string.IsNullOrEmpty(a.FotoUrl) ? "" : $"background-image:url('{a.FotoUrl}')")">@(string.IsNullOrEmpty(a.FotoUrl) ? "🐾" : "")</div>
+        <h3 style="margin:.2rem">@a.Nombre</h3>
+        <div>@a.Edad año(s) · @a.Raza</div>
+        <div>@a.EstadoSalud</div>
+        <p><span class="badge @a.Estado">@Fmt.Estado(a.Estado)</span></p>
+        <a class="btn gris" asp-action="Detalle" asp-route-id="@a.Id">Ver detalle</a>
+        @if (esAdmin && a.Estado == "Disponible")
+        {
+            <a class="btn" asp-controller="Adopciones" asp-action="Iniciar" asp-route-animalId="@a.Id">Iniciar adopción</a>
+        }
+    </div>
+}
+</div>

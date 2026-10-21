@@ -1,0 +1,23 @@
+@model IniciarVm
+@{ ViewData["Title"] = "Proceso de adopción"; }
+<div class="card form">
+    <h2>Proceso de adopción</h2>
+    <form method="post">
+        <label>Animal disponible</label>
+        <select name="animalId" required>
+            @foreach (var a in Model.Animales)
+            {
+                <option value="@a.Id" selected="@(Model.AnimalId == a.Id)">@a.Nombre - @a.Especie @a.Raza (@a.Edad año(s))</option>
+            }
+        </select>
+        <label>Adoptante</label>
+        <select name="adoptanteId" required>
+            @foreach (var a in Model.Adoptantes)
+            {
+                <option value="@a.Id">@a.NombreCompleto - @a.TipoDocumento @a.NumeroDocumento</option>
+            }
+        </select>
+        <p class="muted">La solicitud se crea "En evaluación" y el animal pasa a "En proceso".</p>
+        <p><button>Iniciar proceso</button> <a class="btn gris" asp-action="Index">Cancelar</a></p>
+    </form>
+</div>

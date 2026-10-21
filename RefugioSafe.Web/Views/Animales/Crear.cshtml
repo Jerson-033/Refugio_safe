@@ -1,0 +1,15 @@
+@{ ViewData["Title"] = "Registrar animal"; }
+<div class="card form">
+    <h2>Registrar animal</h2>
+    <form method="post" enctype="multipart/form-data">
+        <label>Nombre</label><input name="nombre" required />
+        <label>Especie</label>
+        <select name="especie" required><option>Perro</option><option>Gato</option></select>
+        <label>Raza</label><input name="raza" required />
+        <label>Edad (estimada en caso de no saberse)</label><input type="number" name="edad" min="0" required />
+        <label>Estado de salud</label><input name="estadoSalud" required />
+        <label>Fecha de ingreso</label><input type="date" name="fechaIngreso" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+        <label>Foto</label><input type="file" name="foto" accept=".jpg,.jpeg,.png,.webp" />
+        <p><button>Guardar</button> <a class="btn gris" asp-action="Index">Cancelar</a></p>
+    </form>
+</div>

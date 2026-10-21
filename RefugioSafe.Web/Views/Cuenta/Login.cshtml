@@ -1,0 +1,21 @@
+@{ ViewData["Title"] = "Iniciar sesión"; }
+<div class="login">
+    <div class="hero">
+        <h1>Un hogar temporal,<br />un amor eterno.</h1>
+        <p>Rescatamos, cuidamos y encontramos el hogar que merecen.</p>
+        <p>🐾 Rescate &nbsp; 💚 Cuidado &nbsp; 🏠 Adopción</p>
+    </div>
+    <div class="card">
+        <h2>Refugio Safe</h2>
+        @if (ViewBag.Error is string err) { <div class="alert error">@err</div> }
+        <form method="post">
+            <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
+            <label>Usuario</label>
+            <input name="usuario" required autofocus />
+            <label>Contraseña</label>
+            <input name="password" type="password" required />
+            <p><button>Ingresar</button></p>
+        </form>
+        <p class="muted">Demo: <b>admin</b> / Admin123* &nbsp;·&nbsp; <b>personal</b> / Personal123*</p>
+    </div>
+</div>

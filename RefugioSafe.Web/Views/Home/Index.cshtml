@@ -1,0 +1,38 @@
+@model CapacidadDto
+@{
+    ViewData["Title"] = "Inicio";
+    var pct = Model.PorcentajeOcupacion.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture);
+    var esAdmin = User.IsInRole("Administrador");
+}
+<div class="grid2">
+    <section class="card">
+        <h2>Capacidad del refugio</h2>
+        <p class="muted">@Model.Refugio</p>
+        @foreach (var e in Model.PorEspecie)
+        {
+            <p>Cantidad de @(e.Key.ToLower())s: <b>@e.Value</b></p>
+        }
+        <div class="donut" style="--p:@pct"><span>@pct%</span></div>
+        <p style="text-align:center">Ocupados <b>@Model.Ocupados</b> · Disponibles <b>@Model.Disponibles</b> · Total <b>@Model.Total</b></p>
+        @if (esAdmin)
+        {
+            <form method="post" asp-action="Capacidad" class="inline">
+                <label style="margin:0">Capacidad total</label>
+                <input type="number" name="capacidadTotal" min="0" value="@Model.Total" style="width:90px" />
+                <button>Actualizar</button>
+            </form>
+        }
+    </section>
+    <section class="card menu">
+        <h2>Animales</h2>
+        <a class="btn" asp-controller="Animales" asp-action="Index">Ver animales</a>
+        @if (esAdmin)
+        {
+            <a class="btn" asp-controller="Animales" asp-action="Crear">Registrar animal</a>
+            <a class="btn" asp-controller="Adoptantes" asp-action="Crear">Registrar adoptante</a>
+            <a class="btn" asp-controller="Seguimientos" asp-action="Index">Seguimiento post-adopción</a>
+            <a class="btn" asp-controller="Adopciones" asp-action="Index">Solicitudes de adopción</a>
+            <a class="btn" asp-controller="Notificaciones" asp-action="Index">Notificaciones</a>
+        }
+    </section>
+</div>

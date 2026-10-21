@@ -1,0 +1,18 @@
+@model List<NotificacionDto>
+@{ ViewData["Title"] = "Notificaciones"; }
+<div class="card">
+    <h2>Notificaciones</h2>
+    <p class="muted">El servicio en segundo plano revisa vacunas y controles próximos de forma periódica. Puede ejecutar la verificación manualmente:</p>
+    <form method="post" asp-action="Procesar"><button>Ejecutar verificación ahora</button></form>
+</div>
+<table>
+    <tr><th>Animal</th><th>Adoptante</th><th>Tipo</th><th>Enviada por</th><th>Fecha</th><th>Estado</th></tr>
+    @foreach (var n in Model)
+    {
+        <tr>
+            <td>@n.Animal</td><td>@n.Adoptante</td><td>@Fmt.Estado(n.Tipo)</td><td>@n.EnviadaPor</td>
+            <td>@n.Fecha.ToString("dd/MM/yy HH:mm")</td>
+            <td><span class="badge @n.Estado">@Fmt.Estado(n.Estado)</span></td>
+        </tr>
+    }
+</table>

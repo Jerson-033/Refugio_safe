@@ -1,0 +1,39 @@
+@model SeguimientosVm
+@{ ViewData["Title"] = "Seguimiento post-adopción"; }
+<div class="card form">
+    <h2>Seguimiento post-adopción</h2>
+    @if (Model.Aprobadas.Count == 0) { <p>No hay adopciones aprobadas para programar controles.</p> }
+    else
+    {
+        <form method="post" asp-action="Programar">
+            <label>Adopción</label>
+            <select name="adopcionId">
+                @foreach (var a in Model.Aprobadas) { <option value="@a.Id">#@a.Id — @a.Animal → @a.Adoptante</option> }
+            </select>
+            <label>Fecha del control</label>
+            <input type="date" name="fechaControl" required />
+            <p><button>Programar</button></p>
+        </form>
+    }
+</div>
+<table>
+    <tr><th>Animal</th><th>Adoptante</th><th>Fecha del control</th><th>Estado</th><th>Resultado</th></tr>
+    @foreach (var s in Model.Seguimientos)
+    {
+        <tr>
+            <td>@s.Animal</td><td>@s.Adoptante</td><td>@s.FechaControl.ToString("dd/MM/yyyy")</td>
+            <td><span class="badge @s.Estado">@Fmt.Estado(s.Estado)</span></td>
+            <td>
+                @if (s.Estado == "Pendiente")
+                {
+                    <form method="post" asp-action="Resultado" class="inline">
+                        <input type="hidden" name="id" value="@s.Id" />
+                        <input name="resultado" placeholder="Resultado del control" required />
+                        <button>Registrar</button>
+                    </form>
+                }
+                else { @s.Resultado }
+            </td>
+        </tr>
+    }
+</table>

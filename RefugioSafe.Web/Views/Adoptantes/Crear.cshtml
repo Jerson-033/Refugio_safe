@@ -1,0 +1,14 @@
+@{ ViewData["Title"] = "Registrar adoptante"; }
+<div class="card form">
+    <h2>Registrar adoptante</h2>
+    <form method="post">
+        <label>Nombre completo</label><input name="nombreCompleto" required />
+        <label>Tipo de documento</label>
+        <select name="tipoDocumento"><option>CC</option><option>CE</option><option>Pasaporte</option></select>
+        <label>Número de documento</label><input name="numeroDocumento" required />
+        <label>Número de contacto</label><input name="contacto" />
+        <label>Correo</label><input type="email" name="correo" required />
+        <label>Dirección</label><input name="direccion" />
+        <p><button>Guardar</button> <a class="btn gris" asp-action="Index">Cancelar</a></p>
+    </form>
+</div>

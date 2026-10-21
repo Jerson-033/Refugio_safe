@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "API + Web",
+    "Projects": [
+      { "Path": "RefugioSafe.Api\\RefugioSafe.Api.csproj", "Action": "Start" },
+      { "Path": "RefugioSafe.Web\\RefugioSafe.Web.csproj", "Action": "Start" }
+    ]
+  }
+]

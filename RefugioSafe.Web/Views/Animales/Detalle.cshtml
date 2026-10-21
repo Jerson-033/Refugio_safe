@@ -1,0 +1,34 @@
+@model AnimalDetalleDto
+@{
+    ViewData["Title"] = Model.Animal.Nombre;
+    var a = Model.Animal;
+}
+<div class="card">
+    <h2>@a.Nombre <span class="badge @a.Estado">@Fmt.Estado(a.Estado)</span></h2>
+    <p>@a.Especie · @a.Raza · @a.Edad año(s) · @a.EstadoSalud</p>
+    <p class="muted">Ingreso: @a.FechaIngreso.ToString("dd/MM/yyyy")</p>
+    <a class="btn gris" asp-action="Index">← Volver</a>
+</div>
+<div class="card">
+    <h2>Vacunas</h2>
+    @if (Model.Vacunas.Count == 0) { <p>Sin vacunas registradas.</p> }
+    else
+    {
+        <table>
+            <tr><th>Vacuna</th><th>Fecha programada</th><th>Aplicada</th></tr>
+            @foreach (var v in Model.Vacunas)
+            {
+                <tr><td>@v.Nombre</td><td>@v.FechaProgramada.ToString("dd/MM/yyyy")</td><td>@(v.FechaAplicada?.ToString("dd/MM/yyyy") ?? "—")</td></tr>
+            }
+        </table>
+    }
+    @if (User.IsInRole("Administrador"))
+    {
+        <h3>Programar vacuna</h3>
+        <form method="post" asp-action="ProgramarVacuna" asp-route-id="@a.Id" class="inline">
+            <input name="nombre" placeholder="Nombre de la vacuna" required />
+            <input type="date" name="fechaProgramada" required />
+            <button>Programar</button>
+        </form>
+    }
+</div>

@@ -1,0 +1,44 @@
+@model List<AdopcionDto>
+@{ ViewData["Title"] = "Solicitudes de adopción"; }
+<div class="card">
+    <h2>Solicitudes</h2>
+    <a class="btn tan" asp-action="Iniciar">+ Iniciar proceso de adopción</a>
+</div>
+@if (Model.Count == 0) { <div class="card">No hay solicitudes registradas.</div> }
+else
+{
+<table>
+    <tr><th>Solicitud</th><th>Animal</th><th>Adoptante</th><th>Estado</th><th>Observaciones</th><th>Decisión</th></tr>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>#@s.Id<br /><span class="muted">@s.FechaSolicitud.ToString("dd/MM/yyyy")</span></td>
+            <td>@s.Animal</td>
+            <td>@s.Adoptante</td>
+            <td><span class="badge @s.Estado">@Fmt.Estado(s.Estado)</span>
+                @if (s.FechaAdopcion.HasValue) { <br /><span class="muted">@s.FechaAdopcion.Value.ToString("dd/MM/yyyy")</span> }</td>
+            <td>@s.Observaciones</td>
+            <td>
+                @if (s.Estado is "Iniciada" or "EvaluadaApta" or "EvaluadaNoApta")
+                {
+                    <form method="post" class="inline">
+                        <input type="hidden" name="id" value="@s.Id" />
+                        <input name="observaciones" placeholder="Observaciones" />
+                        @if (s.Estado == "Iniciada")
+                        {
+                            <button name="apto" value="true" asp-action="Evaluar">Apto</button>
+                            <button name="apto" value="false" asp-action="Evaluar" class="gris">No apto</button>
+                        }
+                        @if (s.Estado == "EvaluadaApta")
+                        {
+                            <button asp-action="Aprobar">Aprobar</button>
+                        }
+                        <button asp-action="Rechazar" class="rojo">Rechazar</button>
+                    </form>
+                }
+                else { <span class="muted">Finalizada</span> }
+            </td>
+        </tr>
+    }
+</table>
+}
